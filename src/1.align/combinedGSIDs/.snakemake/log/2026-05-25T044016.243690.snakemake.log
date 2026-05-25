@@ -1,0 +1,35 @@
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cores: 1 (use --cores to define parallelism)
+Rules claiming more threads will be scaled down.
+Job stats:
+job              count
+-------------  -------
+all                  1
+export_clones      154
+total              155
+
+Select jobs to execute...
+
+[Mon May 25 04:40:18 2026]
+rule export_clones:
+    input: /home/erdem/Hosts/vacuole1/thymectomy/results/combinedGSIDs/104492-003-032.1.clones.clns
+    output: /home/erdem/Hosts/vacuole1/thymectomy/results/combinedGSIDs/104492-003-032.1.clones.txt
+    jobid: 485
+    reason: Forced execution
+    wildcards: sample=104492-003-032, read_threshold=1
+    resources: tmpdir=/tmp
+
+Terminating processes on user request, this might take some time.
+[Mon May 25 04:40:32 2026]
+Error in rule export_clones:
+    jobid: 485
+    input: /home/erdem/Hosts/vacuole1/thymectomy/results/combinedGSIDs/104492-003-032.1.clones.clns
+    output: /home/erdem/Hosts/vacuole1/thymectomy/results/combinedGSIDs/104492-003-032.1.clones.txt
+    shell:
+        
+        mixcr-4.7.0 -Xmx45g exportClones -tagCounts /home/erdem/Hosts/vacuole1/thymectomy/results/combinedGSIDs/104492-003-032.1.clones.clns > /home/erdem/Hosts/vacuole1/thymectomy/results/combinedGSIDs/104492-003-032.1.clones.txt
+        
+        (one of the commands exited with non-zero exit code; note that snakemake uses bash strict mode!)
+
+Complete log: .snakemake/log/2026-05-25T044016.243690.snakemake.log

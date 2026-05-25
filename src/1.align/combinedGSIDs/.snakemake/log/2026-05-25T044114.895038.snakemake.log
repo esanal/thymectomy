@@ -1,0 +1,408 @@
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cores: 50
+Rules claiming more threads will be scaled down.
+Job stats:
+job              count
+-------------  -------
+all                  1
+export_clones      154
+total              155
+
+Select jobs to execute...
+
+[Mon May 25 04:41:16 2026]
+rule export_clones:
+    input: /home/erdem/Hosts/vacuole1/thymectomy/results/combinedGSIDs/104492-003-031.1.clones.clns
+    output: /home/erdem/Hosts/vacuole1/thymectomy/results/combinedGSIDs/104492-003-031.1.clones.txt
+    jobid: 597
+    reason: Forced execution
+    wildcards: sample=104492-003-031, read_threshold=1
+    threads: 8
+    resources: tmpdir=/tmp
+
+
+[Mon May 25 04:41:16 2026]
+rule export_clones:
+    input: /home/erdem/Hosts/vacuole1/thymectomy/results/combinedGSIDs/104492-003-069.1.clones.clns
+    output: /home/erdem/Hosts/vacuole1/thymectomy/results/combinedGSIDs/104492-003-069.1.clones.txt
+    jobid: 355
+    reason: Forced execution
+    wildcards: sample=104492-003-069, read_threshold=1
+    threads: 8
+    resources: tmpdir=/tmp
+
+
+[Mon May 25 04:41:16 2026]
+rule export_clones:
+    input: /home/erdem/Hosts/vacuole1/thymectomy/results/combinedGSIDs/105217-001-038.1.clones.clns
+    output: /home/erdem/Hosts/vacuole1/thymectomy/results/combinedGSIDs/105217-001-038.1.clones.txt
+    jobid: 401
+    reason: Forced execution
+    wildcards: sample=105217-001-038, read_threshold=1
+    threads: 8
+    resources: tmpdir=/tmp
+
+
+[Mon May 25 04:41:16 2026]
+rule export_clones:
+    input: /home/erdem/Hosts/vacuole1/thymectomy/results/combinedGSIDs/104492-003-030.1.clones.clns
+    output: /home/erdem/Hosts/vacuole1/thymectomy/results/combinedGSIDs/104492-003-030.1.clones.txt
+    jobid: 449
+    reason: Forced execution
+    wildcards: sample=104492-003-030, read_threshold=1
+    threads: 8
+    resources: tmpdir=/tmp
+
+
+[Mon May 25 04:41:16 2026]
+rule export_clones:
+    input: /home/erdem/Hosts/vacuole1/thymectomy/results/combinedGSIDs/105217-003-104.1.clones.clns
+    output: /home/erdem/Hosts/vacuole1/thymectomy/results/combinedGSIDs/105217-003-104.1.clones.txt
+    jobid: 563
+    reason: Forced execution
+    wildcards: sample=105217-003-104, read_threshold=1
+    threads: 8
+    resources: tmpdir=/tmp
+
+
+[Mon May 25 04:41:16 2026]
+rule export_clones:
+    input: /home/erdem/Hosts/vacuole1/thymectomy/results/combinedGSIDs/104492-003-061.1.clones.clns
+    output: /home/erdem/Hosts/vacuole1/thymectomy/results/combinedGSIDs/104492-003-061.1.clones.txt
+    jobid: 539
+    reason: Forced execution
+    wildcards: sample=104492-003-061, read_threshold=1
+    threads: 8
+    resources: tmpdir=/tmp
+
+[Mon May 25 04:41:23 2026]
+Finished job 355.
+1 of 155 steps (1%) done
+Select jobs to execute...
+
+[Mon May 25 04:41:23 2026]
+rule export_clones:
+    input: /home/erdem/Hosts/vacuole1/thymectomy/results/combinedGSIDs/104492-003-008.1.clones.clns
+    output: /home/erdem/Hosts/vacuole1/thymectomy/results/combinedGSIDs/104492-003-008.1.clones.txt
+    jobid: 531
+    reason: Forced execution
+    wildcards: sample=104492-003-008, read_threshold=1
+    threads: 8
+    resources: tmpdir=/tmp
+
+[Mon May 25 04:41:23 2026]
+Finished job 539.
+2 of 155 steps (1%) done
+Select jobs to execute...
+
+[Mon May 25 04:41:23 2026]
+rule export_clones:
+    input: /home/erdem/Hosts/vacuole1/thymectomy/results/combinedGSIDs/105217-001-046.1.clones.clns
+    output: /home/erdem/Hosts/vacuole1/thymectomy/results/combinedGSIDs/105217-001-046.1.clones.txt
+    jobid: 309
+    reason: Forced execution
+    wildcards: sample=105217-001-046, read_threshold=1
+    threads: 8
+    resources: tmpdir=/tmp
+
+[Mon May 25 04:41:28 2026]
+Finished job 401.
+3 of 155 steps (2%) done
+Select jobs to execute...
+
+[Mon May 25 04:41:28 2026]
+rule export_clones:
+    input: /home/erdem/Hosts/vacuole1/thymectomy/results/combinedGSIDs/104492-003-016.1.clones.clns
+    output: /home/erdem/Hosts/vacuole1/thymectomy/results/combinedGSIDs/104492-003-016.1.clones.txt
+    jobid: 369
+    reason: Forced execution
+    wildcards: sample=104492-003-016, read_threshold=1
+    threads: 8
+    resources: tmpdir=/tmp
+
+[Mon May 25 04:41:31 2026]
+Finished job 563.
+4 of 155 steps (3%) done
+Select jobs to execute...
+
+[Mon May 25 04:41:31 2026]
+rule export_clones:
+    input: /home/erdem/Hosts/vacuole1/thymectomy/results/combinedGSIDs/105217-001-044.1.clones.clns
+    output: /home/erdem/Hosts/vacuole1/thymectomy/results/combinedGSIDs/105217-001-044.1.clones.txt
+    jobid: 321
+    reason: Forced execution
+    wildcards: sample=105217-001-044, read_threshold=1
+    threads: 8
+    resources: tmpdir=/tmp
+
+[Mon May 25 04:41:31 2026]
+Finished job 597.
+5 of 155 steps (3%) done
+Select jobs to execute...
+
+[Mon May 25 04:41:31 2026]
+rule export_clones:
+    input: /home/erdem/Hosts/vacuole1/thymectomy/results/combinedGSIDs/104492-003-033.1.clones.clns
+    output: /home/erdem/Hosts/vacuole1/thymectomy/results/combinedGSIDs/104492-003-033.1.clones.txt
+    jobid: 435
+    reason: Forced execution
+    wildcards: sample=104492-003-033, read_threshold=1
+    threads: 8
+    resources: tmpdir=/tmp
+
+[Mon May 25 04:41:31 2026]
+Finished job 531.
+6 of 155 steps (4%) done
+Select jobs to execute...
+
+[Mon May 25 04:41:31 2026]
+rule export_clones:
+    input: /home/erdem/Hosts/vacuole1/thymectomy/results/combinedGSIDs/105217-003-102.1.clones.clns
+    output: /home/erdem/Hosts/vacuole1/thymectomy/results/combinedGSIDs/105217-003-102.1.clones.txt
+    jobid: 459
+    reason: Forced execution
+    wildcards: sample=105217-003-102, read_threshold=1
+    threads: 8
+    resources: tmpdir=/tmp
+
+[Mon May 25 04:41:33 2026]
+Finished job 449.
+7 of 155 steps (5%) done
+Select jobs to execute...
+
+[Mon May 25 04:41:33 2026]
+rule export_clones:
+    input: /home/erdem/Hosts/vacuole1/thymectomy/results/combinedGSIDs/105217-001-070.1.clones.clns
+    output: /home/erdem/Hosts/vacuole1/thymectomy/results/combinedGSIDs/105217-001-070.1.clones.txt
+    jobid: 373
+    reason: Forced execution
+    wildcards: sample=105217-001-070, read_threshold=1
+    threads: 8
+    resources: tmpdir=/tmp
+
+[Mon May 25 04:41:33 2026]
+Finished job 309.
+8 of 155 steps (5%) done
+Select jobs to execute...
+
+[Mon May 25 04:41:33 2026]
+rule export_clones:
+    input: /home/erdem/Hosts/vacuole1/thymectomy/results/combinedGSIDs/105217-001-033.1.clones.clns
+    output: /home/erdem/Hosts/vacuole1/thymectomy/results/combinedGSIDs/105217-001-033.1.clones.txt
+    jobid: 349
+    reason: Forced execution
+    wildcards: sample=105217-001-033, read_threshold=1
+    threads: 8
+    resources: tmpdir=/tmp
+
+[Mon May 25 04:41:41 2026]
+Finished job 459.
+9 of 155 steps (6%) done
+Select jobs to execute...
+
+[Mon May 25 04:41:41 2026]
+rule export_clones:
+    input: /home/erdem/Hosts/vacuole1/thymectomy/results/combinedGSIDs/105217-001-035.1.clones.clns
+    output: /home/erdem/Hosts/vacuole1/thymectomy/results/combinedGSIDs/105217-001-035.1.clones.txt
+    jobid: 439
+    reason: Forced execution
+    wildcards: sample=105217-001-035, read_threshold=1
+    threads: 8
+    resources: tmpdir=/tmp
+
+[Mon May 25 04:41:42 2026]
+Finished job 373.
+10 of 155 steps (6%) done
+Select jobs to execute...
+
+[Mon May 25 04:41:42 2026]
+rule export_clones:
+    input: /home/erdem/Hosts/vacuole1/thymectomy/results/combinedGSIDs/104492-003-044.1.clones.clns
+    output: /home/erdem/Hosts/vacuole1/thymectomy/results/combinedGSIDs/104492-003-044.1.clones.txt
+    jobid: 593
+    reason: Forced execution
+    wildcards: sample=104492-003-044, read_threshold=1
+    threads: 8
+    resources: tmpdir=/tmp
+
+[Mon May 25 04:41:43 2026]
+Finished job 321.
+11 of 155 steps (7%) done
+Select jobs to execute...
+
+[Mon May 25 04:41:43 2026]
+rule export_clones:
+    input: /home/erdem/Hosts/vacuole1/thymectomy/results/combinedGSIDs/104492-003-023.1.clones.clns
+    output: /home/erdem/Hosts/vacuole1/thymectomy/results/combinedGSIDs/104492-003-023.1.clones.txt
+    jobid: 501
+    reason: Forced execution
+    wildcards: sample=104492-003-023, read_threshold=1
+    threads: 8
+    resources: tmpdir=/tmp
+
+[Mon May 25 04:41:44 2026]
+Finished job 435.
+12 of 155 steps (8%) done
+Select jobs to execute...
+
+[Mon May 25 04:41:44 2026]
+rule export_clones:
+    input: /home/erdem/Hosts/vacuole1/thymectomy/results/combinedGSIDs/104492-003-067.1.clones.clns
+    output: /home/erdem/Hosts/vacuole1/thymectomy/results/combinedGSIDs/104492-003-067.1.clones.txt
+    jobid: 461
+    reason: Forced execution
+    wildcards: sample=104492-003-067, read_threshold=1
+    threads: 8
+    resources: tmpdir=/tmp
+
+[Mon May 25 04:41:47 2026]
+Finished job 369.
+13 of 155 steps (8%) done
+Select jobs to execute...
+
+[Mon May 25 04:41:47 2026]
+rule export_clones:
+    input: /home/erdem/Hosts/vacuole1/thymectomy/results/combinedGSIDs/105217-001-036.1.clones.clns
+    output: /home/erdem/Hosts/vacuole1/thymectomy/results/combinedGSIDs/105217-001-036.1.clones.txt
+    jobid: 533
+    reason: Forced execution
+    wildcards: sample=105217-001-036, read_threshold=1
+    threads: 8
+    resources: tmpdir=/tmp
+
+[Mon May 25 04:41:47 2026]
+Finished job 593.
+14 of 155 steps (9%) done
+Select jobs to execute...
+
+[Mon May 25 04:41:47 2026]
+rule export_clones:
+    input: /home/erdem/Hosts/vacuole1/thymectomy/results/combinedGSIDs/104492-003-050.1.clones.clns
+    output: /home/erdem/Hosts/vacuole1/thymectomy/results/combinedGSIDs/104492-003-050.1.clones.txt
+    jobid: 615
+    reason: Forced execution
+    wildcards: sample=104492-003-050, read_threshold=1
+    threads: 8
+    resources: tmpdir=/tmp
+
+[Mon May 25 04:41:47 2026]
+Finished job 349.
+15 of 155 steps (10%) done
+Select jobs to execute...
+
+[Mon May 25 04:41:47 2026]
+rule export_clones:
+    input: /home/erdem/Hosts/vacuole1/thymectomy/results/combinedGSIDs/105217-001-032.1.clones.clns
+    output: /home/erdem/Hosts/vacuole1/thymectomy/results/combinedGSIDs/105217-001-032.1.clones.txt
+    jobid: 487
+    reason: Forced execution
+    wildcards: sample=105217-001-032, read_threshold=1
+    threads: 8
+    resources: tmpdir=/tmp
+
+[Mon May 25 04:41:49 2026]
+Finished job 439.
+16 of 155 steps (10%) done
+Select jobs to execute...
+
+[Mon May 25 04:41:49 2026]
+rule export_clones:
+    input: /home/erdem/Hosts/vacuole1/thymectomy/results/combinedGSIDs/105217-001-084.1.clones.clns
+    output: /home/erdem/Hosts/vacuole1/thymectomy/results/combinedGSIDs/105217-001-084.1.clones.txt
+    jobid: 383
+    reason: Forced execution
+    wildcards: sample=105217-001-084, read_threshold=1
+    threads: 8
+    resources: tmpdir=/tmp
+
+[Mon May 25 04:41:52 2026]
+Finished job 501.
+17 of 155 steps (11%) done
+Select jobs to execute...
+
+[Mon May 25 04:41:52 2026]
+rule export_clones:
+    input: /home/erdem/Hosts/vacuole1/thymectomy/results/combinedGSIDs/105217-001-029.1.clones.clns
+    output: /home/erdem/Hosts/vacuole1/thymectomy/results/combinedGSIDs/105217-001-029.1.clones.txt
+    jobid: 335
+    reason: Forced execution
+    wildcards: sample=105217-001-029, read_threshold=1
+    threads: 8
+    resources: tmpdir=/tmp
+
+[Mon May 25 04:41:56 2026]
+Finished job 383.
+18 of 155 steps (12%) done
+Select jobs to execute...
+
+[Mon May 25 04:41:56 2026]
+rule export_clones:
+    input: /home/erdem/Hosts/vacuole1/thymectomy/results/combinedGSIDs/105217-001-002.1.clones.clns
+    output: /home/erdem/Hosts/vacuole1/thymectomy/results/combinedGSIDs/105217-001-002.1.clones.txt
+    jobid: 431
+    reason: Forced execution
+    wildcards: sample=105217-001-002, read_threshold=1
+    threads: 8
+    resources: tmpdir=/tmp
+
+[Mon May 25 04:41:59 2026]
+Finished job 615.
+19 of 155 steps (12%) done
+Select jobs to execute...
+
+[Mon May 25 04:41:59 2026]
+rule export_clones:
+    input: /home/erdem/Hosts/vacuole1/thymectomy/results/combinedGSIDs/105217-003-105.1.clones.clns
+    output: /home/erdem/Hosts/vacuole1/thymectomy/results/combinedGSIDs/105217-003-105.1.clones.txt
+    jobid: 317
+    reason: Forced execution
+    wildcards: sample=105217-003-105, read_threshold=1
+    threads: 8
+    resources: tmpdir=/tmp
+
+[Mon May 25 04:42:01 2026]
+Finished job 487.
+20 of 155 steps (13%) done
+Select jobs to execute...
+
+[Mon May 25 04:42:01 2026]
+rule export_clones:
+    input: /home/erdem/Hosts/vacuole1/thymectomy/results/combinedGSIDs/105217-001-049.1.clones.clns
+    output: /home/erdem/Hosts/vacuole1/thymectomy/results/combinedGSIDs/105217-001-049.1.clones.txt
+    jobid: 607
+    reason: Forced execution
+    wildcards: sample=105217-001-049, read_threshold=1
+    threads: 8
+    resources: tmpdir=/tmp
+
+[Mon May 25 04:42:02 2026]
+Finished job 533.
+21 of 155 steps (14%) done
+Select jobs to execute...
+
+[Mon May 25 04:42:02 2026]
+rule export_clones:
+    input: /home/erdem/Hosts/vacuole1/thymectomy/results/combinedGSIDs/104492-003-070.1.clones.clns
+    output: /home/erdem/Hosts/vacuole1/thymectomy/results/combinedGSIDs/104492-003-070.1.clones.txt
+    jobid: 545
+    reason: Forced execution
+    wildcards: sample=104492-003-070, read_threshold=1
+    threads: 8
+    resources: tmpdir=/tmp
+
+[Mon May 25 04:42:03 2026]
+Finished job 461.
+22 of 155 steps (14%) done
+Select jobs to execute...
+
+[Mon May 25 04:42:03 2026]
+rule export_clones:
+    input: /home/erdem/Hosts/vacuole1/thymectomy/results/combinedGSIDs/104492-003-051.1.clones.clns
+    output: /home/erdem/Hosts/vacuole1/thymectomy/results/combinedGSIDs/104492-003-051.1.clones.txt
+    jobid: 325
+    reason: Forced execution
+    wildcards: sample=104492-003-051, read_threshold=1
+    threads: 8
+    resources: tmpdir=/tmp
+
