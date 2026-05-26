@@ -8,6 +8,7 @@ import numpy as np
 from brokenaxes import brokenaxes
 from matplotlib.ticker import MultipleLocator
 from scipy import stats
+from matplotlib.transforms import blended_transform_factory
 
 mpl.rcParams["pdf.fonttype"] = 42
 plt.rcParams.update({
@@ -43,6 +44,7 @@ data_old = data_f.copy()
 
 subsets = data_f.subset.unique()
 
+# Helper Functions
 def clean_by_lineage(group):
     """
     Removes subset clonotypes from target
@@ -182,6 +184,7 @@ data_f["Read/Cell(UMI)"] = np.where(
     data_f["Read count"] / data_f["UMI count"],
     data_f["Read count"] / data_f["Cell Number"],
 )
+# Check: Read/Cell(UMI) should not be less than 1 (for all samples this is satisfied)
 data_f["read_quality_umi_included"] = np.where(data_f["Read/Cell(UMI)"] >= 1, 1, 0)
 
 # Proxy for the cell numbers: Cell number or UMI
@@ -205,7 +208,7 @@ totals = data_f['umi_counts'].apply(sum)
 data_f['umi_count_percent'] = [[100*x/total for x in lst] for lst,total in zip(data_f['umi_counts'], totals)]
 data_f['umi_count_percent_10th'] = [np.cumsum(lst)[9] for lst in data_f['umi_count_percent']]
 
-data_f[["individual", "chain", "subset", "umi_count_percent", "umi_counts"]].to_csv('../../results/thymectomy_clone_dist_data_collapsed_naive_cleanup.csv', index=False)
+#data_f[["individual", "chain", "subset", "umi_count_percent", "umi_counts"]].to_csv('../../results/thymectomy_clone_dist_data_collapsed_naive_cleanup.csv', index=False)
 
 # export data  with collapsed clones and cleaned up naives!!!
 pickles_dir_cleaned = "../../results/mergedGSIDs_mixcr_th1_collapsed_clones_naives_cleaned.pkl"
@@ -224,16 +227,14 @@ data_treg = data_f[data_f.subset == "CD4Treg"].copy()
 data_f = data_f[data_f.subset != "CD4Treg"].copy()
 
 # export data
-data_f[["individual", "chain", "subset", 'Clonetype/Cell(UMI)', 'umi_count_percent_10th', 'UMIorCell']].to_csv('thymectomy_clone_dist_data_collapsed_naive_cleanup.csv', index=False)
+#data_f[["individual", "chain", "subset", 'Clonetype/Cell(UMI)', 'umi_count_percent_10th', 'UMIorCell']].to_csv('thymectomy_clone_dist_data_collapsed_naive_cleanup.csv', index=False)
 
 order = ["Thymectomized", "Young", "Aged"]
 x_positions = [0, 1, 2]
 
 # Define brokenaxes limits
 broken_y_lims = {
-    # "CD8N":      {"ylim_bottom": (0, 5+1), "ylim_top": (55-1, 60), "tick_step_bottom": 2.5,   "tick_step_top": 2.5},
-    # "CD4NCD31":  {"ylim_bottom": (0, 5+1), "ylim_top": (7.5-1, 10), "tick_step_bottom": 2.5,  "tick_step_top": 2.5},
-    "CD4CM":     {"ylim_bottom": (0, 4+1), "ylim_top": (58-1, 66), "tick_step_bottom": 2,   "tick_step_top": 2},
+    "CD4CM":     {"ylim_bottom": (0, 2+1), "ylim_top": (58-1, 62), "tick_step_bottom": 2,   "tick_step_top": 2},
 }
 
 
@@ -247,7 +248,6 @@ def plot_points(data, column_to_plot, ax_to_plot, filled, clipping = False):
             continue
         
         y_values = group_data[column_to_plot].values
-        #breakpoint()
         individuals = group_data.individual.values
         # Sort by y-value to process from bottom to top
         sorted_indices = np.argsort(y_values)
@@ -267,7 +267,7 @@ def plot_points(data, column_to_plot, ax_to_plot, filled, clipping = False):
         for i in range(len(sorted_y)):
             x_offset = 0
             collision = True
-            max_attempts = 50
+            max_attempts = 200
             attempt = 0
             
             while collision and attempt < max_attempts:
@@ -369,6 +369,9 @@ def plot_broken_axes(
 
     ax_top = original_ax.figure.add_subplot(gs[0])
     ax_bot = original_ax.figure.add_subplot(gs[1])
+    # make background transparent
+    ax_top.set_facecolor('none')
+    ax_bot.set_facecolor('none')
 
     def plot_data_on(ax_in, df, df_filled, df_hollow):
         
@@ -501,10 +504,43 @@ def add_significance(ax, x1, x2, y, h, text):
     h: the height of the 'tips' of the bracket
     text: the significance string (e.g., '***' or 'p < 0.01')
     """
+    # transform x and y coords to axis coords
+    trans = blended_transform_factory(ax.transData, ax.transAxes)
     # Draw the bracket: left tip -> top line -> right tip
-    ax.plot([x1, x1, x2, x2], [y, y+h, y+h, y], lw=0.75, c='black')
+    ax.plot([x1, x1, x2, x2], [y, y+h, y+h, y], lw=0.75, c='black',
+            transform=trans,clip_on=False, zorder=400)
     # Add the text/stars
-    ax.text((x1+x2)*.5, y+h*0.5, text, ha='center', va='bottom', color='black', fontsize=7)
+    ax.text((x1+x2)*.5, y+h*0.001, text, ha='center', va='bottom', color='black', fontsize=6,
+           transform=trans, clip_on=False, zorder=400)
+
+def plot_significance_from_results(ax, result_tuple, order,
+                                   y_start=0.95,
+                                   y_step=0.08,
+                                   h=0.025):
+    """
+    ax: ax to plot on
+    result_tuple: results from stats_groups() for the ax specified
+    order: group order (Thy, Young and Old order)
+    y_start and y_step: controls y position
+    h: vertical height
+    """
+    sig_labels = result_tuple[3]
+    sig_comparisons = result_tuple[4]
+
+    for idx, ((g1, g2), sig_text) in enumerate(zip(sig_comparisons, sig_labels)):
+
+        x1 = order.index(g1)
+        x2 = order.index(g2)
+
+        add_significance(
+            ax,
+            x1,
+            x2,
+            y_start + idx * y_step,
+            h,
+            sig_text
+        )
+
 
 # Modified plot function
 def plot_overview(subset_data, plotName="all"):
@@ -588,54 +624,34 @@ def plot_overview(subset_data, plotName="all"):
             (subset_data_cur_beta["read_quality_umi_included"] == 1)
         ]
 
-        # Stats
-        stat_configs = [
-        ("alpha", subset_selected_alpha, None),
-        ("beta",  subset_selected_beta,  None),
-        ("alpha_pool", subset_selected_alpha, "umi_count_percent_10th"),
-        ("beta_pool",  subset_selected_beta,  "umi_count_percent_10th")
-        ]
-
-        results = {}
-
-        for label, data, col in stat_configs:
-            # Call the function (passing 'column' only if it exists)
-            args = {"column": col} if col else {}
-            res = stats_groups(data, **args)
-            # Store the result and print the 5th element (the 'corrected' pvals)
-            results[label] = res
-            #print(f"{subset} {'Pool ' if 'pool' in label else 'Richness '}Pvals ({label.split('_')[0]}): {list(zip(res[2], get_sig_code(res[3])))}")
-            print(f"{subset} {'Pool ' if 'pool' in label else 'Richness '}Pvals ({label.split('_')[0]}): {res[4]}")
-            print(f"{subset} {'Pool ' if 'pool' in label else 'Richness '}Pvals ({label.split('_')[0]}): {res[3]}")
-
+       
         # Subset alpha and beta subsets
         filled_data_alpha = subset_selected_alpha[subset_selected_alpha["UMIorCell_code"] != "umi"]
         filled_data_beta = subset_selected_beta[subset_selected_beta["UMIorCell_code"] != "umi"]
         hollow_data_alpha = subset_selected_alpha[subset_selected_alpha["UMIorCell_code"] == "umi"]
         hollow_data_beta = subset_selected_beta[subset_selected_beta["UMIorCell_code"] == "umi"]
-        #breakpoint()
         
-        # COLUMN 0: Alpha chain - Richness per cell (0-1)
-        #ax0 = axes[i, 0]
+        # Plot Alpha chain - Richness per cell
+        ## grab to location of axis tp be plotted
         a, b = order_subsets[subset]["richness"]
         ax0 = axes[a, b]
+        ## plpot median bars
         medians_alpha = subset_selected_alpha.groupby("Group", observed=True)["Clonetype/Cell(UMI)"].median()
-        
-        # Plot barsorder_subsets[subset]["richness"]
+        # Plot bars in order_subsets[subset]["richness"]
         ax0.bar(x_positions, medians_alpha[order].values,
             color=[color_list[group] for group in order],
             width=0.45, edgecolor='none', alpha=0.7)
-        
+        ## add points richness
         plot_points(filled_data_alpha, "Clonetype/Cell(UMI)", ax0, filled=True)
         plot_points(hollow_data_alpha, "Clonetype/Cell(UMI)", ax0, filled=False)
 
-        # Set y-axis limits for left columns (0-1)
+        # Set y-axis limits for richness plots (0-1)
         ax0.set_ylim(0, 1.0)
         ax0.set_yticks([0, 0.25, 0.5, 0.75, 1.0])
         ax0.set_ylabel(titles_to_print[subset])  # Empty y-label
         ax0.set_xlim(-0.5, 2.5)
         
-        # COLUMN 1: Beta chain - Richness per cell (0-1)
+        # Plot Beta chain - Richness per cell 
         ax1 = axes[a, b+1]
         medians_beta = subset_selected_beta.groupby("Group", observed=True)["Clonetype/Cell(UMI)"].median()
 
@@ -647,18 +663,19 @@ def plot_overview(subset_data, plotName="all"):
             edgecolor="none",
             alpha=0.7,
         )
-
+        ## add points richness
         plot_points(filled_data_beta, "Clonetype/Cell(UMI)", ax1, filled=True)
         plot_points(hollow_data_beta, "Clonetype/Cell(UMI)", ax1, filled=False)
 
         
-        # Set y-axis limits for left columns (0-1)
+        ## Set y-axis limits for left columns (0-1)
         ax1.set_ylim(0, 1.0)
         ax1.set_yticks([0, 0.25, 0.5, 0.75, 1.0])
         ax1.set_ylabel("")  # Empty y-label
         ax1.set_xlim(-0.5, 2.5)
 
-        # COLUMN 2: Alpha chain - Top 10 clones (0-100) - Note: this is now index 2 in axes array
+        # Plot Alpha chain - Top 10 clones (0-100) 
+        ## grab location of axis to be plotted
         a, b = order_subsets[subset]["pool"]
         ax2 = axes[a, b]
         if subset in broken_y_lims.keys():
@@ -666,80 +683,78 @@ def plot_overview(subset_data, plotName="all"):
             plot_broken_axes(axes[i, 2], subset_selected_alpha, **broken_y_lims[subset], y_label=subset)
         else:
             medians_alpha_top = subset_selected_alpha.groupby("Group", observed=True)["umi_count_percent_10th"].median()            
-            
             ax2.bar(x_positions, medians_alpha_top[order].values,
                 color=[color_list[group] for group in order],
                 width=0.45, edgecolor='none', alpha=0.7)
-            #max_y = max([hollow_data_alpha["umi_count_percent_10th"].max(), filled_data_alpha["umi_count_percent_10th"].max()])
-
-            #add_significance(ax2, 1, 2, max_y*1.1, 0.1, "**")
-            #add_significance(ax2, 0, 2, max_y*1.25, 0.1, "*")
+            ## add points for pool size
             plot_points(filled_data_alpha, "umi_count_percent_10th", ax2, filled=True)
             plot_points(hollow_data_alpha, "umi_count_percent_10th", ax2, filled=False)
 
         ax2.set_xlim(-0.5, 2.5)
         ax2.set_ylabel(titles_to_print[subset])
         
-        # COLUMN 3: Beta chain - Top 10 clones (0-100) - Note: this is now index 3 in axes array
+        # Plot Beta chain - Top 10 clones (0-100)
         ax3 = axes[a, b + 1]
         if subset in broken_y_lims.keys():
             plot_broken_axes(axes[i, 3], subset_selected_beta, show_y_tick_labels=False, **broken_y_lims[subset])
         else:
             medians_beta_top = subset_selected_beta.groupby("Group", observed=True)["umi_count_percent_10th"].median()
-            
             ax3.bar(x_positions, medians_beta_top[order].values,
                 color=[color_list[group] for group in order],
                 width=0.45, edgecolor='none', alpha=0.7)
-
-            #max_y = max([hollow_data_alpha["umi_count_percent_10th"].max(), filled_data_alpha["umi_count_percent_10th"].max()])
-            #add_significance(ax3, 1, 2, max_y*1.1, 0.1, "**")
-            #add_significance(ax3, 0, 2, max_y*1.25, 0.1, "*")
-
-
+            ## add points for pool size
             plot_points(filled_data_beta, "umi_count_percent_10th", ax3, filled=True)
             plot_points(hollow_data_beta, "umi_count_percent_10th", ax3, filled=False)
 
         ax3.set_xlim(-0.5, 2.5)
-            
-        # Set y-axis limits for right columns (0-100) - same as column 2
-        if i in [1]:
-            axes[i, 2].set_ylim(0, 3)
-            axes[i, 3].set_ylim(0, 3)
-            axes[i, 2].set_yticks([0, 1, 2, 3])
-            axes[i, 3].set_yticks([0, 1, 2, 3])
-        elif i in [3]:
-            axes[i, 2].set_ylim(0, 100)
-            axes[i, 3].set_ylim(0, 100)
-            axes[i, 2].set_yticks([0, 25, 50, 75, 100])
-            axes[i, 3].set_yticks([0, 25, 50, 75, 100])
-        elif i in [4]:
-            axes[i, 2].set_ylim(0, 75)
-            axes[i, 3].set_ylim(0, 75)
-            axes[i, 2].set_yticks([0, 25, 50, 75])
-            axes[i, 3].set_yticks([0, 25, 50, 75])    
-        
         ax3.set_ylabel("")  # Empty y-label
         
-        # Set cell type labels for leftmost column only
-        # axes[i, 0].set_ylabel(titles_to_print[subset])
+        # Add stats
+        combinations = [
+            ("Young" , "Aged"),
+            ("Young", "Thymectomized"),
+            ("Thymectomized", "Aged")
+        ]
+
+        stat_configs = [
+        ("alpha", subset_selected_alpha, None),
+        ("beta",  subset_selected_beta,  None),
+        ("alpha_pool", subset_selected_alpha, "umi_count_percent_10th"),
+        ("beta_pool",  subset_selected_beta,  "umi_count_percent_10th")
+        ]
+
+        results = {}
+
+        for label, data, col in stat_configs:
+            # Call the stat function and pass "column" only if it exists
+            args = {"column": col} if col else {}
+            res = stats_groups(data, **args)
+            # Store the result and print the 5th element (the 'corrected' pvals)
+            results[label] = res
+            print(f"{subset} {'Pool ' if 'pool' in label else 'Richness '}Pvals ({label.split('_')[0]}): {res[4]}")
+            print(f"{subset} {'Pool ' if 'pool' in label else 'Richness '}Pvals ({label.split('_')[0]}): {res[3]}")
         
+        ## plot stats into ax
+        plot_significance_from_results(ax0, results["alpha"], order)
+        plot_significance_from_results(ax1, results["beta"], order)
+        plot_significance_from_results(ax2, results["alpha_pool"], order)
+        plot_significance_from_results(ax3, results["beta_pool"], order)
+
+
         # Hide y-ticks for columns 1 and 3 (right side of each group)
         axes[i, 1].tick_params(axis='y', labelleft=False)
         axes[i, 3].tick_params(axis='y', labelleft=False)
         
-        # Set x-ticks only for bottom row
-        if i == n_rows - 1:
+        # Set x-ticks only for bottom rows
+        if i in [n_groups - 1, (n_groups/2) - 1]:
             for j in range(4):
                 target_ax = axes[i, j]
-
                 # Check if this axis was processed by plot_broken_axes
                 if hasattr(target_ax, 'bot_split'):
                     target_ax = target_ax.bot_split
-
                 target_ax.set_xticks(x_positions)
-                target_ax.set_xticklabels(["Y-Tx", "Y", "O"], rotation=45, weight="bold")
+                target_ax.set_xticklabels(["Y-Tx", "Y", "O"])
                 target_ax.tick_params(axis='x', labelbottom=True)
-
         else:
             for j in range(4):
                 axes[i, j].set_xticks([])
