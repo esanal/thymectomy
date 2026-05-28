@@ -9,6 +9,7 @@ from brokenaxes import brokenaxes
 from matplotlib.ticker import MultipleLocator
 from scipy import stats
 from matplotlib.transforms import blended_transform_factory
+from matplotlib.lines import Line2D
 
 mpl.rcParams["pdf.fonttype"] = 42
 plt.rcParams.update({
@@ -222,8 +223,7 @@ data_f = data_f[data_f['UMI count'] >= 500].copy()
 
 
 
-# sep. dataframe into Treg and all
-data_treg = data_f[data_f.subset == "CD4Treg"].copy()
+# Remove Treg
 data_f = data_f[data_f.subset != "CD4Treg"].copy()
 
 # export data
@@ -275,7 +275,7 @@ def plot_points(data, column_to_plot, ax_to_plot, filled, clipping = False):
                 test_x = group_idx + x_offset
                 
                 # Check for collisions with previously placed points
-                for j in range(i):
+                for j in range(i-1, -1, -1):
                     y_diff = abs(sorted_y[i] - sorted_y[j])
                     x_diff = abs(test_x - x_positions[j])
                     
@@ -301,7 +301,7 @@ def plot_points(data, column_to_plot, ax_to_plot, filled, clipping = False):
         
         # Marker for Y-Tx 10
         marker_list = ["*" if ind == "Y-Tx10" else "o" for ind in sorted_individuals] 
-
+        
         # Plot points with original y-values and adjusted x-positions
         for xi, yi, mkr in zip(x_positions, sorted_y, marker_list):
             # Adjust size: stars ('*') look smaller than circles ('o')
@@ -313,9 +313,9 @@ def plot_points(data, column_to_plot, ax_to_plot, filled, clipping = False):
                     marker=mkr,
                     color=color_list[group],
                     edgecolors="black",
-                    linewidths=0.5,
+                    linewidths=0.25,
                     s=current_s,
-                    alpha=1,
+                    alpha=0.75,
                     clip_on=clipping,
                     zorder=100
                 )
@@ -324,11 +324,11 @@ def plot_points(data, column_to_plot, ax_to_plot, filled, clipping = False):
                     x=xi,
                     y=yi,
                     marker=mkr,
-                    facecolors='white',
+                    facecolors="white",
                     edgecolors="black",
                     s=current_s,
-                    linewidths=0.5,
-                    alpha=1,
+                    linewidths=0.25,
+                    alpha=0.75,
                     clip_on=clipping,
                     zorder=100
                 )
@@ -786,15 +786,43 @@ def plot_overview(subset_data, plotName="all"):
 
     for label, x, y in labels:
         fig.text(x, y, label, fontsize=12, fontweight='bold', va='top', ha='left')
+    
+    # Legend
+    ## circles
+    handles = [
+        Line2D([0], [0], marker="o", color = "black", markerfacecolor=color_list[group],
+               markersize=4, linestyle="None", markeredgewidth=0.25)
+        for group in order
+    ]
+    ## star
+    handles.append(
+        Line2D([0], [0], marker="*", color="black", markerfacecolor="white",
+               markersize=5, linestyle="None", markeredgewidth=0.25)
+    )
+
+    legend_labels = ["Young Tx", "Young", "Older", "Young Tx-THYM10"]
+    
+
+    fig.legend(
+        handles,
+        legend_labels,
+        loc='upper center',
+        bbox_to_anchor=(0.5, 0.09),  # centered horizontally, near bottom
+        ncol=len(labels),            # all items in one row
+        fontsize=5,
+        frameon=False
+    )
+
+    ## Make room for the legend at the bottom
+    #fig.subplots_adjust(bottom=0.08)
 
     # Save figure
     fig.savefig(
-        f"../../figures/{plotName}_collapsed_cleanedupNaives_dev.pdf",
+        f"../../figures/cellVSClone_collapsed_cleanedupNaives_{plotName}.pdf",
         dpi=300, bbox_inches='tight'
     )
     plt.close(fig)
 
 # Plot both datasets
 plot_overview(data_f, plotName="thymectomy_cellVSClone")
-#plot_overview(data_treg, plotName="Treg_cellVsClone")
 

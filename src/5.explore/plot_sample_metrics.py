@@ -1,8 +1,3 @@
-'''
-Fix UMI/Cell, possibly via copying methods (or maybe the data modified in my other script where)
-'''
-
-
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -247,4 +242,3 @@ def plot_overview(subset_data, plotName = "all", order_ind = order_ind):
         )
         mpl.pyplot.close()
 plot_overview(data, plotName="thymectomy")
-plot_overview(data_treg, plotName="Treg", order_ind=order_ind_treg)

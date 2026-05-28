@@ -36,7 +36,7 @@ for Sid in SAMPLES:
 
             output_file = os.path.join(output_dir, f"{Sid}_{direction}.fastq.gz")
 
-            # --- LOGIC: Concatenate or Copy ---
+            # Concatenate or Copy 
             if len(matching_files) > 1:
                 # Multiple IDs: Concatenate
                 inputs = " ".join(f"'{f}'" for f in matching_files) # Quoting paths for safety

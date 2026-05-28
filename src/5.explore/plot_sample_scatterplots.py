@@ -233,10 +233,6 @@ def plot_overview(subset_data, plotName = "all"):
             if old_label in rename_map:
                 text.set_text(rename_map[old_label])
                 text.set_ha('center')  # center the group header
-                #text.set_position((text.get_position()[0] + 10, text.get_position()[1]))  # adjust x offset
-
-        # Make room on the right for the legend
-        #fig.subplots_adjust(right=0.99)  # adjust as needed
 
         # Remove legend from subplot
         axs["D"].legend_.remove()
@@ -249,4 +245,3 @@ def plot_overview(subset_data, plotName = "all"):
         )
         mpl.pyplot.close()
 plot_overview(data_f, plotName="thymectomy")
-plot_overview(data_treg, plotName="Treg")
