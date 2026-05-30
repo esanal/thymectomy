@@ -1,5 +1,5 @@
-data_dir: "/home/erdem/Hosts/vacuole1/thymectomy/data/fastq_combined_GSIDs"
-results_dir: "/home/erdem/Hosts/vacuole1/thymectomy/results/combinedGSIDs"
+data_dir: "../../../data/fastq_combined_GSIDs"
+results_dir: "../../../results/combinedGSIDs"
 mixcr_species: "hsa"
 mixcr_preset: "takara-human-rna-tcr-umi-smartseq"
 read_thresholds: [1]

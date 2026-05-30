@@ -31,6 +31,7 @@ rule all:
         expand(os.path.join(RES_DIR, "{sample}.refined.vdjca"), sample=SAMPLES),
         expand(os.path.join(RES_DIR, "{sample}.refine.report.txt"), sample=SAMPLES),
         expand(os.path.join(RES_DIR, "{sample}.{read_threshold}.clones.txt"), sample=SAMPLES, read_threshold=READ_THRESHOLDS),
+        expand(os.path.join(RES_DIR, "{sample}.{read_threshold}.clones.prod.txt"), sample=SAMPLES, read_threshold=READ_THRESHOLDS),
         expand(os.path.join(RES_DIR, "{sample}.{read_threshold}.clones.clns"), sample=SAMPLES, read_threshold=READ_THRESHOLDS),
         expand(os.path.join(RES_DIR, "{sample}.{read_threshold}.assemble.report.txt"), sample=SAMPLES, read_threshold=READ_THRESHOLDS),
         expand(os.path.join(RES_DIR, "{sample}.{read_threshold}.coverage.png"), sample=SAMPLES, read_threshold=READ_THRESHOLDS)
@@ -105,6 +106,21 @@ rule export_clones:
         """
         mixcr-4.7.0 -Xmx{params.mem} exportClones -tagCounts {input.clns} > {output.clones_txt}
         """
+
+rule export_clones_prod:
+    input:
+        clns=os.path.join(RES_DIR, "{sample}.{read_threshold}.clones.clns")
+    output:
+        clones_prod_txt=os.path.join(RES_DIR, "{sample}.{read_threshold}.clones.prod.txt")
+    threads: CORES_SUB
+    params:
+        mem=MEM_SUB,
+        read_threshold="{read_threshold}"
+    shell:
+        """
+        mixcr-4.7.0 -Xmx{params.mem} exportClones -tagCounts {input.clns} > {output.clones_prod_txt}
+        """
+
 
 rule export_qc_tags:
     input:
