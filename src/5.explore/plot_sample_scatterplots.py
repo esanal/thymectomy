@@ -83,20 +83,6 @@ order_ind = [
     "O12",
     "O13",
 ]
-data[
-    [
-        "individual",
-        "subset",
-        "chain",
-        "clonetype",
-        "Cell Number",
-        "Group",
-        "Read count",
-        "UMI count",
-        'Read/Cell(UMI)',
-        "UMI/Cell(UMI)",
-    ]
-].to_csv("/home/erdem/Dropbox/Research/thymectomy/results_overview_naive_cleaned.csv")
 
 # sep. dataframe into Treg and all
 data_treg = data[data.subset == "CD4Treg"].copy()

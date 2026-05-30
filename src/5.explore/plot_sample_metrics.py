@@ -106,7 +106,7 @@ data[
         "UMI/Cell(UMI)",
         "Clonetype/Cell(UMI)"
    ]
-].to_csv("../../results/explore_thymectomy_overview.csv")
+].to_csv("../../results/explore_thymectomy_overview.csv", index = False)
 
 def plot_overview(subset_data, plotName = "all", order_ind = order_ind):
     for c in ["TRA", "TRB"]:

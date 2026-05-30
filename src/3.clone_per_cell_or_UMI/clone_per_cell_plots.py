@@ -209,7 +209,8 @@ totals = data_f['umi_counts'].apply(sum)
 data_f['umi_count_percent'] = [[100*x/total for x in lst] for lst,total in zip(data_f['umi_counts'], totals)]
 data_f['umi_count_percent_10th'] = [np.cumsum(lst)[9] for lst in data_f['umi_count_percent']]
 
-#data_f[["individual", "chain", "subset", "umi_count_percent", "umi_counts"]].to_csv('../../results/thymectomy_clone_dist_data_collapsed_naive_cleanup.csv', index=False)
+# export for clone dist figure in R
+data_f[["individual", "chain", "subset", "umi_count_percent", "umi_counts"]].to_csv('../../results/thymectomy_clone_dist_data_collapsed_naive_cleanup.csv', index=False)
 
 # export data  with collapsed clones and cleaned up naives!!!
 pickles_dir_cleaned = "../../results/mergedGSIDs_mixcr_th1_collapsed_clones_naives_cleaned.pkl"
@@ -225,9 +226,6 @@ data_f = data_f[data_f['UMI count'] >= 500].copy()
 
 # Remove Treg
 data_f = data_f[data_f.subset != "CD4Treg"].copy()
-
-# export data
-#data_f[["individual", "chain", "subset", 'Clonetype/Cell(UMI)', 'umi_count_percent_10th', 'UMIorCell']].to_csv('thymectomy_clone_dist_data_collapsed_naive_cleanup.csv', index=False)
 
 order = ["Thymectomized", "Young", "Aged"]
 x_positions = [0, 1, 2]
