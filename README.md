@@ -2,7 +2,9 @@
 
 This repository contains scripts used to generate T-cell receptor sequencing data and figures from the paper "Resilience of the human T-cell compartment after early-life thymectomy" (Figs. 3-4 and Supplementary Figs. 6-10).
 
-Sample metadata linking FASTQ file identifiers to sample information can be found in the `data/metadata` directory.
+## Metadata
+
+Sample metadata are required to map FASTQ file identifiers to sample information used throughout the analyses. These files can be found in the `data/metadata` directory.
 
 ## To reproduce the figures and analyses in the paper
 
@@ -22,7 +24,9 @@ Download all `fastq.gz` files from [Dataverse](https://doi.org/10.34894/HQCNGM) 
    python ./src/0.mergeFASTQ/mergeFASTQ_GenomescanIDs.py
    ```
 
-1. TCR alpha and beta alignment uses [MiXCR](https://mixcr.com/mixcr/about/). The pipeline can be run with [Snakemake](https://snakemake.readthedocs.io/en/stable/) from the `src/1.align/` directory.
+1. TCR alpha and beta chain alignment uses [MiXCR](https://mixcr.com/mixcr/about/). MiXCR must be installed because the Snakemake pipeline calls it directly. To reproduce these results, install MiXCR version 4.7.0 and ensure `mixcr-4.7.0` is available on your `PATH`. The produced clonotype lists are also available in [Dataverse](https://doi.org/10.34894/HQCNGM) and can be downloaded and placed in "results/combinedGSIDs" directly to skip this step.
+
+   The pipeline can be run with [Snakemake](https://snakemake.readthedocs.io/en/stable/) from the `src/1.align/` directory.
 
    The `config.yaml` file contains machine-specific parameters, such as the available memory for running jobs.
 
